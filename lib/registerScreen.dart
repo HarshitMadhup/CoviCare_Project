@@ -22,7 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController cellnumberController =
       new TextEditingController();
   final TextEditingController otpController = new TextEditingController();
-  final TextEditingController adhar = new TextEditingController();
+  // final TextEditingController adhar = new TextEditingController();
   final TextEditingController email = new TextEditingController();
 
   var isLoading = false;
@@ -104,27 +104,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Please enter a cell number';
-                            }
-                          },
-                        ),
-                      )),
-                      Container(
-                          child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10.0),
-                        child: TextFormField(
-                          autofillHints: ['1111111111111111111111'],
-                          enabled: !isLoading,
-                          controller: adhar,
-                          textInputAction: TextInputAction.next,
-                          onEditingComplete: () => node.nextFocus(),
-                          decoration: InputDecoration(
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              labelText: 'Adhar Number'),
-                          validator: (value) {
-                            if (value.isEmpty || value.length < 16) {
-                              return 'Please enter a valid adhar number';
                             }
                           },
                         ),
@@ -280,8 +259,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                             cellnumberController
                                                                 .text
                                                                 .trim(),
-                                                        'adharnumber':
-                                                            adhar.text.trim(),
                                                         'email':
                                                             email.text.trim(),
                                                       },
@@ -422,7 +399,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       .set({
                         'name': nameController.text.trim(),
                         'cellnumber': cellnumberController.text.trim(),
-                        'adharnumber': adhar.text.trim(),
                         'email': email.text.trim(),
                       }, SetOptions(merge: true))
                       .then((value) => {

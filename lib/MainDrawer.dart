@@ -41,9 +41,12 @@ class MainDrawer extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          buildListTile('Requests', Icons.restaurant, () {}),
-          buildListTile('Deals', Icons.settings, () {}),
-          buildListTile('Offers', Icons.settings, () {}),
+          buildListTile('Home', Icons.home, () {}),
+          buildListTile('Profile', Icons.person, () {}),
+          buildListTile(
+              'Donations', Icons.sentiment_very_satisfied_outlined, () {}),
+          buildListTile('Order Status', Icons.shopping_cart, () {}),
+          buildListTile('Payments', Icons.attach_money, () {}),
         ],
       ),
     );

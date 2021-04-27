@@ -1,127 +1,141 @@
 import 'package:flutter/material.dart';
+import 'package:phone_verification/ItemDetails.dart';
+import 'package:phone_verification/config.dart/colors.dart';
 
-class MealItem extends StatelessWidget {
-  MealItem(
+class Item extends StatelessWidget {
+  Item(
 
-      // this.id,
+      // this.user,
       this.title,
-      // this.imageUrl,
-      this.availability,
-      this.price,
+      this.service,
+      this.description,
+      this.quantity,
       this.location,
-      this.category);
-  // final String id;
+      this.contact,
+      this.price,
+      this.provider);
+  // final String user;
   final String title;
+  final String service;
   // final String imageUrl;
-  final String availability;
+  final String description;
   final String price;
   final String location;
-  final String category;
+  final String quantity;
+  final String contact;
+  final String provider;
 
   void select(BuildContext context) {
-    // Navigator.of(context)
-    //     .pushNamed(
-    //   MealDetailScreen.routeName,
-    //   arguments: id,
-    // )
-    //     .then((result) {
-    //   if (result != null) {
-    //     // removeItem(result);
-    //   }
-    // });
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (BuildContext context) => ItemDetails(
+    //             url, contact, price, title, location, availability)));
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => select(context),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        elevation: 4,
-        margin: EdgeInsets.all(10),
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                  ),
-                  child: Image.network(
-                    "https://image.freepik.com/free-vector/cardboard-boxes-packing-transportation-goods-delivery-service-concept-product-packaging-carton-boxes-with-confetti-style-illustration-white-background_189145-188.jpg",
-                    height: 250,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+        onTap: () {
+          // return ItemDetails(
+          //     url, contact, price, title, location, availability);
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height / 4 - 20,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: AppColors.primaryWhite,
+            boxShadow: AppColors.neumorpShadow,
+          ),
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                top: 20,
+                right: -60,
+                child: Image.asset(
+                  "assets/images/tank.png",
+                  width: MediaQuery.of(context).size.width * 0.60,
                 ),
-                Positioned(
-                  bottom: 20,
-                  right: 10,
-                  child: Container(
-                    width: 250,
-                    color: Colors.black54,
-                    padding: EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 20,
-                    ),
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 26,
-                        color: Colors.white,
-                      ),
-                      softWrap: true,
-                      overflow: TextOverflow.fade,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.category,
-                      ),
-                      SizedBox(
-                        width: 6,
-                      ),
-                      Text(category),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.monetization_on),
-                      SizedBox(
-                        width: 6,
-                      ),
-                      Text(price + " /week"),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.location_on,
-                      ),
-                      SizedBox(
-                        width: 6,
-                      ),
-                      Text(location),
-                    ],
-                  ),
-                ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+              Padding(
+                padding: EdgeInsets.only(top: 10, left: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      service,
+                      style: TextStyle(
+                          shadows: [
+                            Shadow(blurRadius: 10, color: Colors.blue[600])
+                          ],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 40,
+                          color: Colors.white),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      provider,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.location_on,
+                          size: 16,
+                          color: Color(0xff4E295B),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          location,
+                          style: TextStyle(
+                            color: Color(0xff4E295B),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    MaterialButton(
+                      onPressed: () {
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (){}));
+                      },
+                      color: Colors.purple,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        'View Details',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }
+
+// @override
+// Widget build(BuildContext context) {
+//   // TODO: implement build
+//   throw UnimplementedError();
+// }

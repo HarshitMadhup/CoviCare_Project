@@ -61,7 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: new AppBar(
-          title: Text('Login Screen'),
+          title: Text(
+            'InstaRent ',
+            textAlign: TextAlign.center,
+          ),
         ),
         body: ListView(children: [
           new Column(

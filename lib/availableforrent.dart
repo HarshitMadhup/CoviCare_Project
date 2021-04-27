@@ -25,12 +25,15 @@ class Available extends StatelessWidget {
         return ListView.builder(
           reverse: false,
           itemCount: Docs.length,
-          itemBuilder: (ctx, index) => MealItem(
+          itemBuilder: (ctx, index) => Item(
             Docs[index].data()['name'].toString(),
-            Docs[index].data()['availability'].toString(),
-            Docs[index].data()['price'].toString(),
+            Docs[index].data()['service'].toString(),
+            Docs[index].data()['description'].toString(),
+            Docs[index].data()['quantity'].toString(),
             Docs[index].data()['location'].toString(),
-            Docs[index].data()['category'].toString(),
+            Docs[index].data()['contact'].toString(),
+            Docs[index].data()['price'].toString(),
+            Docs[index].data()['provider'].toString(),
           ),
         );
       },
