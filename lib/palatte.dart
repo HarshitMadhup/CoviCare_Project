@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const TextStyle kHeading = TextStyle(
   fontSize: 60,
@@ -7,7 +8,7 @@ const TextStyle kHeading = TextStyle(
   color: Colors.black,
 );
 
-const TextStyle kBodyText = TextStyle(
-  fontSize: 22,
+TextStyle kBodyText = GoogleFonts.quicksand(
+  fontSize: 20,
   color: Colors.white,
 );

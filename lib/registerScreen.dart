@@ -1,456 +1,67 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
-import 'package:phone_verification/loggedInScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:mynotes/pages/homepage.dart';
+import 'package:phone_verification/tabView.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+GoogleSignIn googleSignIn = GoogleSignIn();
+final FirebaseAuth auth = FirebaseAuth.instance;
+CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-class RegisterScreen extends StatefulWidget {
-  RegisterScreen({Key key}) : super(key: key);
+// changing return type to void
+// as bool was not needed here
+void signInWithGoogle(BuildContext context) async {
+  try {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
 
-  @override
-  _RegisterScreenState createState() => _RegisterScreenState();
-}
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _formKeyOTP = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final TextEditingController nameController = new TextEditingController();
-  final TextEditingController cellnumberController =
-      new TextEditingController();
-  final TextEditingController otpController = new TextEditingController();
-  // final TextEditingController adhar = new TextEditingController();
-  final TextEditingController email = new TextEditingController();
+      final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken);
 
-  var isLoading = false;
-  var isResend = false;
-  var isRegister = true;
-  var isOTPScreen = false;
-  var verificationCode = '';
+      final UserCredential authResult =
+          await auth.signInWithCredential(credential);
 
-  //Form controllers
-  @override
-  void initState() {
-    super.initState();
-  }
+      final User user = authResult.user;
 
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is disposed
-    nameController.dispose();
-    cellnumberController.dispose();
-    otpController.dispose();
-    super.dispose();
-  }
+      var userData = {
+        'name': googleSignInAccount.displayName,
+        'provider': 'google',
+        'photoUrl': googleSignInAccount.photoUrl,
+        'email': googleSignInAccount.email,
+      };
 
-  @override
-  Widget build(BuildContext context) {
-    return isOTPScreen ? returnOTPScreen() : registerScreen();
-  }
+      users.doc(user.uid).get().then((doc) {
+        if (doc.exists) {
+          // old user
+          doc.reference.update(userData);
 
-  Widget registerScreen() {
-    final node = FocusScope.of(context);
-    return Scaffold(
-        key: _scaffoldKey,
-        appBar: new AppBar(
-          title: Text('Register new user'),
-        ),
-        body: ListView(children: [
-          new Column(
-            children: [
-              Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Container(
-                          child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10.0),
-                        child: TextFormField(
-                          autofillHints: ["Harshit"],
-                          enabled: !isLoading,
-                          controller: nameController,
-                          textInputAction: TextInputAction.next,
-                          onEditingComplete: () => node.nextFocus(),
-                          decoration: InputDecoration(
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              labelText: 'Name'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter a name';
-                            }
-                          },
-                        ),
-                      )),
-                      Container(
-                          child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10.0),
-                        child: TextFormField(
-                          enabled: !isLoading,
-                          keyboardType: TextInputType.phone,
-                          controller: cellnumberController,
-                          textInputAction: TextInputAction.done,
-                          onFieldSubmitted: (_) => node.unfocus(),
-                          decoration: InputDecoration(
-                              hintText: 'Cell Number',
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              labelText: 'Cell Number'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter a cell number';
-                            }
-                          },
-                        ),
-                      )),
-                      Container(
-                          child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10.0),
-                        child: TextFormField(
-                          autofillHints: ["email@gmai.com"],
-                          enabled: !isLoading,
-                          controller: email,
-                          textInputAction: TextInputAction.next,
-                          onEditingComplete: () => node.nextFocus(),
-                          decoration: InputDecoration(
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              labelText: 'Email'),
-                          validator: (value) {
-                            if (value.isEmpty || !value.contains('@')) {
-                              return 'Please enter a valid email';
-                            }
-                          },
-                        ),
-                      )),
-                      Container(
-                          margin: EdgeInsets.only(top: 40, bottom: 5),
-                          child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: new ElevatedButton(
-                                onPressed: () {
-                                  if (!isLoading) {
-                                    if (_formKey.currentState.validate()) {
-                                      // If the form is valid, we want to show a loading Snackbar
-                                      setState(() {
-                                        signUp();
-                                        isRegister = false;
-                                        isOTPScreen = true;
-                                      });
-                                    }
-                                  }
-                                },
-                                child: new Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 15.0,
-                                    horizontal: 15.0,
-                                  ),
-                                  child: new Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      new Expanded(
-                                        child: Text(
-                                          "Next",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ))),
-                    ],
-                  ))
-            ],
-          )
-        ]));
-  }
-
-  Widget returnOTPScreen() {
-    return Scaffold(
-        key: _scaffoldKey,
-        appBar: new AppBar(
-          title: Text('OTP Screen'),
-        ),
-        body: ListView(children: [
-          Form(
-            key: _formKeyOTP,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10.0),
-                        child: Text(
-                            !isLoading
-                                ? "Enter OTP from SMS"
-                                : "Sending OTP code SMS",
-                            textAlign: TextAlign.center))),
-                !isLoading
-                    ? Container(
-                        child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10.0),
-                        child: TextFormField(
-                          enabled: !isLoading,
-                          controller: otpController,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          initialValue: null,
-                          autofocus: true,
-                          decoration: InputDecoration(
-                              labelText: 'OTP',
-                              labelStyle: TextStyle(color: Colors.black)),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter OTP';
-                            }
-                          },
-                        ),
-                      ))
-                    : Container(),
-                !isLoading
-                    ? Container(
-                        margin: EdgeInsets.only(top: 40, bottom: 5),
-                        child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: new ElevatedButton(
-                              onPressed: () async {
-                                if (_formKeyOTP.currentState.validate()) {
-                                  // If the form is valid, we want to show a loading Snackbar
-                                  // If the form is valid, we want to do firebase signup...
-                                  setState(() {
-                                    isResend = false;
-                                    isLoading = true;
-                                  });
-                                  try {
-                                    await _auth
-                                        .signInWithCredential(
-                                            PhoneAuthProvider.credential(
-                                                verificationId:
-                                                    verificationCode,
-                                                smsCode: otpController.text
-                                                    .toString()))
-                                        .then((user) async => {
-                                              //sign in was success
-                                              if (user != null)
-                                                {
-                                                  //store registration details in firestore database
-                                                  await _firestore
-                                                      .collection('users')
-                                                      .doc(
-                                                          _auth.currentUser.uid)
-                                                      .set(
-                                                          {
-                                                        'name': nameController
-                                                            .text
-                                                            .trim(),
-                                                        'cellnumber':
-                                                            cellnumberController
-                                                                .text
-                                                                .trim(),
-                                                        'email':
-                                                            email.text.trim(),
-                                                      },
-                                                          SetOptions(
-                                                              merge:
-                                                                  true)).then(
-                                                          (value) => {
-                                                                //then move to authorised area
-                                                                setState(() {
-                                                                  isLoading =
-                                                                      false;
-                                                                  isResend =
-                                                                      false;
-                                                                })
-                                                              }),
-
-                                                  setState(() {
-                                                    isLoading = false;
-                                                    isResend = false;
-                                                  }),
-                                                  Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          LoggedInScreen(),
-                                                    ),
-                                                    (route) => false,
-                                                  )
-                                                }
-                                            })
-                                        .catchError((error) => {
-                                              setState(() {
-                                                isLoading = false;
-                                                isResend = true;
-                                              }),
-                                            });
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                  } catch (e) {
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                  }
-                                }
-                              },
-                              child: new Container(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 15.0,
-                                  horizontal: 15.0,
-                                ),
-                                child: new Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    new Expanded(
-                                      child: Text(
-                                        "Submit",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )))
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                CircularProgressIndicator(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
-                                )
-                              ].where((c) => c != null).toList(),
-                            )
-                          ]),
-                isResend
-                    ? Container(
-                        margin: EdgeInsets.only(top: 40, bottom: 5),
-                        child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: new ElevatedButton(
-                              onPressed: () async {
-                                setState(() {
-                                  isResend = false;
-                                  isLoading = true;
-                                });
-                                await signUp();
-                              },
-                              child: new Container(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 15.0,
-                                  horizontal: 15.0,
-                                ),
-                                child: new Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    new Expanded(
-                                      child: Text(
-                                        "Resend Code",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )))
-                    : Column()
-              ],
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => TabsScreen(),
             ),
-          )
-        ]));
-  }
+          );
+        } else {
+          // new user
 
-  Future signUp() async {
-    setState(() {
-      isLoading = true;
-    });
-    debugPrint('Gideon test 1');
-    var phoneNumber = '+91 ' + cellnumberController.text.toString();
-    debugPrint('Gideon test 2');
-    var verifyPhoneNumber = _auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: (phoneAuthCredential) {
-        debugPrint('Gideon test 3');
-        //auto code complete (not manually)
-        _auth.signInWithCredential(phoneAuthCredential).then((user) async => {
-              if (user != null)
-                {
-                  //store registration details in firestore database
-                  await _firestore
-                      .collection('users')
-                      .doc(_auth.currentUser.uid)
-                      .set({
-                        'name': nameController.text.trim(),
-                        'cellnumber': cellnumberController.text.trim(),
-                        'email': email.text.trim(),
-                      }, SetOptions(merge: true))
-                      .then((value) => {
-                            //then move to authorised area
-                            setState(() {
-                              isLoading = false;
-                              isRegister = false;
-                              isOTPScreen = false;
+          users.doc(user.uid).set(userData);
 
-                              //navigate to is
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      LoggedInScreen(),
-                                ),
-                                (route) => false,
-                              );
-                            })
-                          })
-                      .catchError((onError) => {
-                            debugPrint(
-                                'Error saving user to db.' + onError.toString())
-                          })
-                }
-            });
-        debugPrint('Gideon test 4');
-      },
-      verificationFailed: (FirebaseAuthException error) {
-        debugPrint('Gideon test 5' + error.message);
-        setState(() {
-          isLoading = false;
-        });
-      },
-      codeSent: (verificationId, [forceResendingToken]) {
-        debugPrint('Gideon test 6');
-        setState(() {
-          isLoading = false;
-          verificationCode = verificationId;
-        });
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        debugPrint('Gideon test 7');
-        setState(() {
-          isLoading = false;
-          verificationCode = verificationId;
-        });
-      },
-      timeout: Duration(seconds: 60),
-    );
-    debugPrint('Gideon test 7');
-    await verifyPhoneNumber;
-    debugPrint('Gideon test 8');
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => TabsScreen(),
+            ),
+          );
+        }
+      });
+    }
+  } catch (PlatformException) {
+    print(PlatformException);
+    print("Sign in not successful !");
+    // better show an alert here
   }
 }

@@ -4,17 +4,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:phone_verification/Items.dart';
 
 class Available extends StatelessWidget {
+  String location;
+  Available(this.location);
+  final Query query = FirebaseFirestore.instance.collection('rent').orderBy(
+        'createdAt',
+        descending: true,
+      );
+  // .where('service', isNotEqualTo: "Oxygen");
+
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection('rent')
-          .orderBy(
-            'createdAt',
-            descending: true,
-          )
-          .snapshots(),
+    print(location);
+    // final user = FirebaseAuth.instance.currentUser;
+    return FutureBuilder(
+      future: query.get(),
       builder: (ctx, AsyncSnapshot<QuerySnapshot> availableSnapshot) {
         if (availableSnapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -22,20 +25,30 @@ class Available extends StatelessWidget {
           );
         }
         final Docs = availableSnapshot.data.docs;
+
         return ListView.builder(
-          reverse: false,
-          itemCount: Docs.length,
-          itemBuilder: (ctx, index) => Item(
-            Docs[index].data()['name'].toString(),
-            Docs[index].data()['service'].toString(),
-            Docs[index].data()['description'].toString(),
-            Docs[index].data()['quantity'].toString(),
-            Docs[index].data()['location'].toString(),
-            Docs[index].data()['contact'].toString(),
-            Docs[index].data()['price'].toString(),
-            Docs[index].data()['provider'].toString(),
-          ),
-        );
+            shrinkWrap: false,
+            reverse: false,
+            itemCount: Docs.length,
+            itemBuilder: (ctx, index) {
+              Widget widget = Docs[index]
+                      .data()['location']
+                      .toString()
+                      .toUpperCase()
+                      .contains(location.toUpperCase())
+                  ? Item(
+                      Docs[index].data()['name'].toString(),
+                      Docs[index].data()['service'].toString(),
+                      Docs[index].data()['description'].toString(),
+                      Docs[index].data()['quantity'].toString(),
+                      Docs[index].data()['location'].toString(),
+                      Docs[index].data()['contact'].toString(),
+                      Docs[index].data()['price'].toString(),
+                      Docs[index].data()['provider'].toString(),
+                    )
+                  : Text("");
+              return widget;
+            });
       },
     );
   }

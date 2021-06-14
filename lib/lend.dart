@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phone_verification/palatte.dart';
-import 'package:phone_verification/widgets/background-image.dart';
-import 'package:phone_verification/widgets/password-input.dart';
-import 'package:phone_verification/widgets/rounded-button.dart';
 import 'package:phone_verification/widgets/text-input.dart';
+
+import 'config.dart/colors.dart';
+import 'loginScreen.dart';
 
 class LendScreen extends StatefulWidget {
   @override
@@ -39,6 +40,7 @@ class _LendScreenState extends State<LendScreen> {
     super.initState();
   }
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   void _sendMessage(
       String title,
       String service,
@@ -49,11 +51,11 @@ class _LendScreenState extends State<LendScreen> {
       String price,
       String provider) async {
     FocusScope.of(context).unfocus();
-    final user = FirebaseAuth.instance.currentUser;
-    final userData = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .get();
+    // final user = FirebaseAuth.instance.currentUser;
+    // final userData = await FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(user.uid)
+    //     .get();
     // final user = FirebaseAuth.instance.currentUser;
     // final userData = await FirebaseFirestore.instance
     //     .collection('users')
@@ -70,9 +72,10 @@ class _LendScreenState extends State<LendScreen> {
       'price': price,
       'location': location,
       'provider': provider,
+      'contact': contact,
       // 'userImage':  _image,
     });
-    _controller.clear();
+    // _controller.clear();
   }
 
   @override
@@ -83,13 +86,35 @@ class _LendScreenState extends State<LendScreen> {
   Widget lendScreen() {
     final node = FocusScope.of(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backwardsCompatibility: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        shadowColor: Colors.white,
+        bottomOpacity: 0.0,
+        foregroundColor: Colors.transparent,
+        title: Text(""),
+        actions: [
+          TextButton(
+            child: Text(""),
+            onPressed: () {
+              //redirect
+              _auth.signOut().then((value) =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return LoginPage();
+                  })));
+            },
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           Container(
             decoration: BoxDecoration(
               image: new DecorationImage(
                 colorFilter: new ColorFilter.mode(
-                    Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                    Colors.black.withOpacity(0.6), BlendMode.dstATop),
                 image: new AssetImage("assets/images/mask.jpg"),
                 fit: BoxFit.cover,
               ),
@@ -166,12 +191,20 @@ class _LendScreenState extends State<LendScreen> {
                               inputType: TextInputType.text,
                               inputAction: TextInputAction.next,
                             ),
+                            TextInput(
+                              controller: priceController,
+                              icon: FontAwesomeIcons.star,
+                              hint: 'Price',
+                              inputType: TextInputType.text,
+                              inputAction: TextInputAction.next,
+                            ),
                             Column(
                               children: [
                                 SizedBox(
-                                  height: 100,
+                                  height: 20,
                                 ),
-                                ElevatedButton(
+                                MaterialButton(
+                                  color: Colors.blue[200],
                                   child: Text(
                                     "Submit",
                                     style: TextStyle(color: Colors.white),
@@ -184,7 +217,7 @@ class _LendScreenState extends State<LendScreen> {
                                         quantityController.text.trim(),
                                         contactController.text.trim(),
                                         locationController.text.trim(),
-                                        quantityController.text.trim(),
+                                        priceController.text.trim(),
                                         organizationController.text.trim());
                                   },
                                 ),
@@ -197,6 +230,73 @@ class _LendScreenState extends State<LendScreen> {
                         ),
                       ]))
                 ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              alignment: Alignment.topCenter,
+              height: 170,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  // border: Border.all(color: Colors.purple),
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.blue[900],
+                        Colors.blue[200],
+                        Colors.white
+                      ]),
+                  boxShadow: [
+                    BoxShadow(color: Colors.blue[900], blurRadius: 30)
+                  ],
+                  color: Colors.blue[300],
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.menu,
+                            color: Colors.white,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.filter_list,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      "Add Resources",
+                      style: GoogleFonts.barlow(
+                          shadows: [
+                            BoxShadow(color: Colors.blue[900], blurRadius: 20)
+                          ],
+                          color: Colors.white,
+                          fontSize: 32,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

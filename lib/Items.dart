@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:phone_verification/ItemDetails.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phone_verification/config.dart/colors.dart';
+import 'package:phone_verification/course_info_screen.dart';
 
 class Item extends StatelessWidget {
   Item(
@@ -45,6 +46,13 @@ class Item extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height / 4 - 20,
           decoration: BoxDecoration(
+            // gradient: LinearGradient(
+            //     begin: Alignment.topCenter,
+            //     end: Alignment.bottomCenter,
+            //     colors: [
+            //       AppColors.primaryWhite,
+            //       Colors.white,
+            //     ]),
             borderRadius: BorderRadius.circular(20),
             color: AppColors.primaryWhite,
             boxShadow: AppColors.neumorpShadow,
@@ -52,12 +60,19 @@ class Item extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               Positioned(
-                top: 20,
-                right: -60,
-                child: Image.asset(
-                  "assets/images/tank.png",
-                  width: MediaQuery.of(context).size.width * 0.60,
-                ),
+                top: service.contains("Oxygen") ? 20 : 47,
+                right: service.contains("Oxygen") ? -60 : -40,
+                child: service.contains("Oxygen")
+                    ? Image.asset("assets/images/tank.png")
+                    : Container(
+                        width: 80,
+                        height: 130,
+                        child: Image.asset(
+                          "lib/favpng_blood-donation-vector-graphics-health-care-heart.png",
+                          fit: BoxFit.scaleDown,
+                        ),
+                      ),
+                width: MediaQuery.of(context).size.width * 0.60,
               ),
               Padding(
                 padding: EdgeInsets.only(top: 10, left: 30),
@@ -66,25 +81,23 @@ class Item extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       service,
-                      style: TextStyle(
+                      style: GoogleFonts.barlowCondensed(
                           shadows: [
-                            Shadow(blurRadius: 10, color: Colors.blue[600])
+                            Shadow(blurRadius: 20, color: Colors.blue[600])
                           ],
                           fontWeight: FontWeight.bold,
-                          fontSize: 40,
+                          fontSize: 47,
                           color: Colors.white),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     Text(
-                      provider,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                      ),
+                      " " + provider,
+                      style: TextStyle(),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 7,
                     ),
                     Row(
                       children: <Widget>[
@@ -94,7 +107,7 @@ class Item extends StatelessWidget {
                           color: Color(0xff4E295B),
                         ),
                         SizedBox(
-                          width: 10,
+                          width: 7,
                         ),
                         Text(
                           location,
@@ -109,19 +122,31 @@ class Item extends StatelessWidget {
                     ),
                     MaterialButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (){}));
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                maintainState: false,
+                                builder: (context) => CourseInfoScreen(
+                                      title,
+                                      service,
+                                      description,
+                                      quantity,
+                                      location,
+                                      contact,
+                                      price,
+                                      provider,
+                                    )),
+                          );
+                        });
                       },
-                      color: Colors.purple,
+                      color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
                         'View Details',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.purple,
                         ),
                       ),
                     ),

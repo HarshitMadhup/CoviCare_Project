@@ -1,423 +1,297 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:phone_verification/registerScreen.dart';
-import 'package:phone_verification/loggedInScreen.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:phone_verification/tabView.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key}) : super(key: key);
+// import 'main_home.dart';
 
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _formKeyOTP = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  final TextEditingController numberController = new TextEditingController();
-  final TextEditingController otpController = new TextEditingController();
-
-  var isLoading = false;
-  var isResend = false;
-  var isLoginScreen = true;
-  var isOTPScreen = false;
-  var verificationCode = '';
-
-  //Form controllers
-  @override
-  void initState() {
-    if (_auth.currentUser != null) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => LoggedInScreen(),
-        ),
-        (route) => false,
-      );
-    }
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the Widget is disposed
-    numberController.dispose();
-    super.dispose();
-  }
-
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return isOTPScreen ? returnOTPScreen() : returnLoginScreen();
+    return NeumorphicApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      themeMode: ThemeMode.light,
+      theme: NeumorphicThemeData(
+        baseColor: Colors.blue[100],
+        lightSource: LightSource.topLeft,
+        depth: 10,
+      ),
+      darkTheme: NeumorphicThemeData(
+        baseColor: Color(0xFF3E3E3E),
+        lightSource: LightSource.topLeft,
+        depth: 6,
+      ),
+      home: MyHomePage(),
+    );
   }
+}
 
-  Widget returnLoginScreen() {
+class MyHomePage extends StatelessWidget {
+  MyHomePage({Key key}) : super(key: key);
+
+  Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        appBar: new AppBar(
-          title: Text(
-            'InstaRent ',
-            textAlign: TextAlign.center,
+      floatingActionButton: NeumorphicFloatingActionButton(
+        child: Icon(Icons.add, size: 30),
+        onPressed: () {},
+      ),
+      backgroundColor: NeumorphicTheme.baseColor(context),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          // SizedBox(height: 70),
+          Padding(
+            padding: EdgeInsets.fromLTRB(20, 70, 0, 170),
+            child: Text("CoviCare",
+                style: GoogleFonts.notoSans(
+                    fontSize: 60, fontWeight: FontWeight.normal)),
           ),
-        ),
-        body: ListView(children: [
-          new Column(
-            children: [
-              Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Container(
-                          child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10.0),
-                        child: TextFormField(
-                          enabled: !isLoading,
-                          controller: numberController,
-                          keyboardType: TextInputType.phone,
-                          decoration:
-                              InputDecoration(labelText: 'Phone Number'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter phone number';
-                            }
-                          },
-                        ),
-                      )),
-                      Container(
-                          margin: EdgeInsets.only(top: 40, bottom: 5),
-                          child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: !isLoading
-                                  ? new ElevatedButton(
-                                      onPressed: () async {
-                                        if (!isLoading) {
-                                          if (_formKey.currentState
-                                              .validate()) {
-                                            displaySnackBar('Please wait...');
-                                            await login();
-                                          }
-                                        }
-                                      },
-                                      child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 15.0,
-                                            horizontal: 15.0,
-                                          ),
-                                          child: new Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Expanded(
-                                                  child: Text(
-                                                "Sign In",
-                                                textAlign: TextAlign.center,
-                                              )),
-                                            ],
-                                          )),
-                                    )
-                                  : CircularProgressIndicator(
-                                      backgroundColor:
-                                          Theme.of(context).primaryColor,
-                                    ))),
-                      Container(
-                          margin: EdgeInsets.only(top: 15, bottom: 5),
-                          alignment: AlignmentDirectional.center,
-                          child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10.0),
-                                      child: Text(
-                                        "No Account ?",
-                                      )),
-                                  InkWell(
-                                    child: Text(
-                                      'Sign up',
-                                    ),
-                                    onTap: () => {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  RegisterScreen()))
-                                    },
-                                  ),
-                                ],
-                              )))
-                    ],
-                  ))
-            ],
-          )
-        ]));
-  }
-
-  Widget returnOTPScreen() {
-    return Scaffold(
-        key: _scaffoldKey,
-        appBar: new AppBar(
-          title: Text('OTP Screen'),
-        ),
-        body: ListView(children: [
-          Form(
-            key: _formKeyOTP,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10.0),
-                        child: Text(
-                            !isLoading
-                                ? "Enter OTP from SMS"
-                                : "Sending OTP code SMS",
-                            textAlign: TextAlign.center))),
-                !isLoading
-                    ? Container(
-                        child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 10.0),
-                        child: TextFormField(
-                          enabled: !isLoading,
-                          controller: otpController,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          initialValue: null,
-                          autofocus: true,
-                          decoration: InputDecoration(
-                              labelText: 'OTP',
-                              labelStyle: TextStyle(color: Colors.black)),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter OTP';
-                            }
-                          },
-                        ),
-                      ))
-                    : Container(),
-                !isLoading
-                    ? Container(
-                        margin: EdgeInsets.only(top: 40, bottom: 5),
-                        child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: new ElevatedButton(
-                              onPressed: () async {
-                                if (_formKeyOTP.currentState.validate()) {
-                                  // If the form is valid, we want to show a loading Snackbar
-                                  // If the form is valid, we want to do firebase signup...
-                                  setState(() {
-                                    isResend = false;
-                                    isLoading = true;
-                                  });
-                                  try {
-                                    await _auth
-                                        .signInWithCredential(
-                                            PhoneAuthProvider.credential(
-                                                verificationId:
-                                                    verificationCode,
-                                                smsCode: otpController.text
-                                                    .toString()))
-                                        .then((user) async => {
-                                              //sign in was success
-                                              if (user != null)
-                                                {
-                                                  //store registration details in firestore database
-                                                  setState(() {
-                                                    isLoading = false;
-                                                    isResend = false;
-                                                  }),
-                                                  Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          LoggedInScreen(),
-                                                    ),
-                                                    (route) => false,
-                                                  )
-                                                }
-                                            })
-                                        .catchError((error) => {
-                                              setState(() {
-                                                isLoading = false;
-                                                isResend = true;
-                                              }),
-                                            });
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                  } catch (e) {
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                  }
-                                }
-                              },
-                              child: new Container(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 15.0,
-                                  horizontal: 15.0,
-                                ),
-                                child: new Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    new Expanded(
-                                      child: Text(
-                                        "Submit",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )))
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                CircularProgressIndicator(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
-                                )
-                              ].where((c) => c != null).toList(),
-                            )
-                          ]),
-                isResend
-                    ? Container(
-                        margin: EdgeInsets.only(top: 40, bottom: 5),
-                        child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: new ElevatedButton(
-                              onPressed: () async {
-                                setState(() {
-                                  isResend = false;
-                                  isLoading = true;
-                                });
-                                await login();
-                              },
-                              child: new Container(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 15.0,
-                                  horizontal: 15.0,
-                                ),
-                                child: new Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    new Expanded(
-                                      child: Text(
-                                        "Resend Code",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )))
-                    : Column()
-              ],
+          NeumorphicButton(
+            onPressed: () {
+              print("onClick");
+            },
+            style: NeumorphicStyle(
+              shape: NeumorphicShape.flat,
+              boxShape: NeumorphicBoxShape.circle(),
             ),
-          )
-        ]));
+            padding: const EdgeInsets.all(12.0),
+            child: Icon(
+              Icons.favorite_border,
+              color: _iconsColor(context),
+            ),
+          ),
+          NeumorphicButton(
+              margin: EdgeInsets.only(top: 12),
+              onPressed: () {
+                NeumorphicTheme.of(context).themeMode =
+                    NeumorphicTheme.isUsingDark(context)
+                        ? ThemeMode.light
+                        : ThemeMode.dark;
+              },
+              style: NeumorphicStyle(
+                shape: NeumorphicShape.convex,
+                boxShape:
+                    NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
+              ),
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                "Toggle Theme",
+                style: TextStyle(color: _textColor(context)),
+              )),
+          NeumorphicButton(
+              margin: EdgeInsets.only(top: 12),
+              onPressed: () {
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (context) {
+                  return TabsScreen();
+                }));
+              },
+              style: NeumorphicStyle(
+                shape: NeumorphicShape.flat,
+                boxShape:
+                    NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
+                //border: NeumorphicBorder()
+              ),
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                "Go to full sample",
+                style: TextStyle(color: _textColor(context)),
+              )),
+        ],
+      ),
+    );
   }
 
-  displaySnackBar(text) {
-    final snackBar = SnackBar(content: Text(text));
-    _scaffoldKey.currentState.showSnackBar(snackBar);
-  }
-
-  Future login() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    var phoneNumber = '+91 ' + numberController.text.trim();
-
-    //first we will check if a user with this cell number exists
-    var isValidUser = false;
-    var number = numberController.text.trim();
-
-    await _firestore
-        .collection('users')
-        .where('cellnumber', isEqualTo: number)
-        .get()
-        .then((result) {
-      if (result.docs.length > 0) {
-        isValidUser = true;
-      }
-    });
-
-    if (isValidUser) {
-      //ok, we have a valid user, now lets do otp verification
-      var verifyPhoneNumber = _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        verificationCompleted: (phoneAuthCredential) {
-          //auto code complete (not manually)
-          _auth.signInWithCredential(phoneAuthCredential).then((user) async => {
-                if (user != null)
-                  {
-                    //redirect
-                    setState(() {
-                      isLoading = false;
-                      isOTPScreen = false;
-                    }),
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => LoggedInScreen(),
-                      ),
-                      (route) => false,
-                    )
-                  }
-              });
-        },
-        verificationFailed: (FirebaseAuthException error) {
-          displaySnackBar('Validation error, please try again later');
-          setState(() {
-            isLoading = false;
-          });
-        },
-        codeSent: (verificationId, [forceResendingToken]) {
-          setState(() {
-            isLoading = false;
-            verificationCode = verificationId;
-            isOTPScreen = true;
-          });
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          setState(() {
-            isLoading = false;
-            verificationCode = verificationId;
-          });
-        },
-        timeout: Duration(seconds: 60),
-      );
-      await verifyPhoneNumber;
+  Color _iconsColor(BuildContext context) {
+    final theme = NeumorphicTheme.of(context);
+    if (theme.isUsingDark) {
+      return theme.current.accentColor;
     } else {
-      //non valid user
-      setState(() {
-        isLoading = false;
-      });
-      displaySnackBar('Number not found, please sign up first');
+      return null;
+    }
+  }
+
+  Color _textColor(BuildContext context) {
+    if (NeumorphicTheme.isUsingDark(context)) {
+      return Colors.white;
+    } else {
+      return Colors.black;
     }
   }
 }
+
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 70.0,
+            ),
+            //
+
+            //
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10.0,
+              ),
+              child: ElevatedButton(
+                onPressed: () {
+                  signInWithGoogle(context);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Continue With Google",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: "lato",
+                      ),
+                    ),
+                    //
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    //
+                    Image.asset(
+                      'assets/images/google.png',
+                      height: 36.0,
+                    ),
+                  ],
+                ),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Colors.grey[700],
+                    ),
+                    padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(
+                        vertical: 12.0,
+                      ),
+                    )),
+              ),
+            ),
+            //
+            SizedBox(
+              height: 10.0,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// import 'dart:io';
+
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/services.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// // import 'package:firebase_storage/firebase_storage.dart';
+
+// import '../widgets/auth_form.dart';
+
+// class AuthScreen extends StatefulWidget {
+//   @override
+//   _AuthScreenState createState() => _AuthScreenState();
+// }
+
+// class _AuthScreenState extends State<AuthScreen> {
+//   final _auth = FirebaseAuth.instance;
+//   var _isLoading = false;
+
+//   void 
+//   _submitAuthForm(
+//     String email,
+//     String password,
+//     String username,
+//     // File image,
+//     bool isLogin,
+//     BuildContext ctx,
+//   ) async {
+//     UserCredential authResult;
+
+//     try {
+//       setState(() {
+//         _isLoading = true;
+//       });
+//       if (isLogin) {
+//         authResult = await _auth.signInWithEmailAndPassword(
+//           email: email,
+//           password: password,
+//         );
+//       } else {
+//         authResult = await _auth.createUserWithEmailAndPassword(
+//           email: email,
+//           password: password,
+//         );
+
+//         // final ref = FirebaseStorage.instance
+//         //     .ref()
+//         //     .child('user_image')
+//         //     .child(authResult.user.uid + '.jpg');
+
+//         // await ref.putFile(image).onComplete;
+
+//         // final url = await ref.getDownloadURL();
+
+//         await FirebaseFirestore.instance
+//             .collection('users')
+//             .doc(authResult.user.uid)
+//             .set({
+//           'username': username,
+//           'email': email,
+//         });
+//       }
+//     } on PlatformException catch (err) {
+//       var message = 'An error occurred, pelase check your credentials!';
+
+//       if (err.message != null) {
+//         message = err.message;
+//       }
+
+//       Scaffold.of(ctx).showSnackBar(
+//         SnackBar(
+//           content: Text(message),
+//           backgroundColor: Theme.of(ctx).errorColor,
+//         ),
+//       );
+//       setState(() {
+//         _isLoading = false;
+//       });
+//     } catch (err) {
+//       print(err);
+//       setState(() {
+//         _isLoading = false;
+//       });
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white12,
+//       body: AuthForm(
+//         _submitAuthForm,
+//         _isLoading,
+//       ),
+//     );
+//   }
+// }
