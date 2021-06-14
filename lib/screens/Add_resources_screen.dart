@@ -6,15 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phone_verification/palatte.dart';
 import 'package:phone_verification/widgets/text-input.dart';
 
-import 'config.dart/colors.dart';
-import 'loginScreen.dart';
+import '../config.dart/colors.dart';
+import './loginScreen.dart';
 
-class LendScreen extends StatefulWidget {
+class Add_Resources_Screen extends StatefulWidget {
   @override
   _LendScreenState createState() => _LendScreenState();
 }
 
-class _LendScreenState extends State<LendScreen> {
+class _LendScreenState extends State<Add_Resources_Screen> {
   final user = FirebaseAuth.instance.currentUser;
   final form1 = GlobalKey<FormState>();
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:phone_verification/availableforrent.dart';
+import 'package:phone_verification/Available_resources.dart';
 import 'package:phone_verification/config.dart/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phone_verification/tabView.dart';

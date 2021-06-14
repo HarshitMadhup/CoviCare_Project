@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:phone_verification/Requests.dart';
-import 'package:phone_verification/rentscreen.dart';
+import 'package:phone_verification/screens/tweets_screen.dart';
+import 'package:phone_verification/screens/resources_screen.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'MainDrawer.dart';
-import 'lend.dart';
+import 'screens/Add_resources_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 // import 'package:line_icons/line_icons.dart';
 
@@ -17,7 +17,11 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final List<Widget> _pages = [RentScreen(), LendScreen(), WikipediaExplorer()];
+  final List<Widget> _pages = [
+    ResourcesScreen(),
+    Add_Resources_Screen(),
+    TweetsScreen()
+  ];
   int _selectedPageIndex = 0;
 
   @override
