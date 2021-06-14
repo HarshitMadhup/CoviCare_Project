@@ -11,10 +11,10 @@ import './loginScreen.dart';
 
 class Add_Resources_Screen extends StatefulWidget {
   @override
-  _LendScreenState createState() => _LendScreenState();
+  Add_Resources_ScreenState createState() => Add_Resources_ScreenState();
 }
 
-class _LendScreenState extends State<Add_Resources_Screen> {
+class Add_Resources_ScreenState extends State<Add_Resources_Screen> {
   final user = FirebaseAuth.instance.currentUser;
   final form1 = GlobalKey<FormState>();
 
@@ -246,11 +246,7 @@ class _LendScreenState extends State<Add_Resources_Screen> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.blue[900],
-                        Colors.blue[200],
-                        Colors.white
-                      ]),
+                      colors: [Colors.blue[300], Colors.white]),
                   boxShadow: [
                     BoxShadow(color: Colors.blue[900], blurRadius: 30)
                   ],

@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:phone_verification/screens/loginScreen.dart';
 import 'package:phone_verification/tabView.dart';
 
-import './screens/loginScreen.dart';
+// import './screens/loginScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

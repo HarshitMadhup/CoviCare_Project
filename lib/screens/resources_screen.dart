@@ -3,18 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:phone_verification/Available_resources.dart';
-import 'package:phone_verification/config.dart/colors.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phone_verification/tabView.dart';
 
-import 'loginScreen.dart';
-
-class RentScreen extends StatefulWidget {
+class ResourcesScreen extends StatefulWidget {
   @override
-  _RentScreenState createState() => _RentScreenState();
+  _ResourcesScreenState createState() => _ResourcesScreenState();
 }
 
-class _RentScreenState extends State<RentScreen> {
+class _ResourcesScreenState extends State<ResourcesScreen> {
   String location = "";
   TextEditingController controller = new TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -153,7 +151,7 @@ class _RentScreenState extends State<RentScreen> {
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.blue[900], Colors.blue[200], Colors.white]),
+                    colors: [Colors.blue[300], Colors.white]),
                 // boxShadow: [BoxShadow(color: Colors.blue[900], blurRadius: 30)],
                 color: Colors.blue[300],
                 borderRadius: BorderRadius.only(
@@ -189,13 +187,14 @@ class _RentScreenState extends State<RentScreen> {
                   Text(
                     "Resources",
                     style: GoogleFonts.barlow(
-                        shadows: [
-                          BoxShadow(color: Colors.blue[900], blurRadius: 20)
-                        ],
-                        color: Colors.white,
-                        fontSize: 35,
-                        fontWeight: FontWeight.normal),
-                  ),
+                      shadows: [
+                        BoxShadow(color: Colors.blue[900], blurRadius: 20)
+                      ],
+                      color: Colors.white,
+                      fontSize: 35,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  )
                 ],
               ),
             ),

@@ -98,7 +98,7 @@ class _TabsScreenState extends State<TabsScreen> {
                 activeColor: Colors.blue[200],
                 iconSize: 24,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                duration: Duration(milliseconds: 700),
+                duration: Duration(milliseconds: 500),
                 // tabBackgroundColor: Colors.black,
                 color: Colors.blue,
                 tabs: [

@@ -8,7 +8,7 @@ const TextStyle kHeading = TextStyle(
   color: Colors.black,
 );
 
-TextStyle kBodyText = GoogleFonts.quicksand(
+TextStyle kBodyText = GoogleFonts.lato(
   fontSize: 20,
   color: Colors.white,
 );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'design_course_app_theme.dart';
+import '../design_course_app_theme.dart';
 
 class CourseInfoScreen extends StatefulWidget {
   CourseInfoScreen(this.title, this.service, this.description, this.quantity,
@@ -69,8 +69,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                 AspectRatio(
                   aspectRatio: 1.2,
                   child: widget.service.contains("Oxygen")
-                      ? Image.network(
-                          "https://blog.cachefly.net/wp-content/uploads/2018/10/Oxygentanks.webp",
+                      ? Image.asset("assets/images/oxygen.png",
                           fit: BoxFit.cover)
                       : Container(
                           width: 50,

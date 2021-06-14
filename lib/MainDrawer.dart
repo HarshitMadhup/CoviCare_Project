@@ -45,8 +45,6 @@ class MainDrawer extends StatelessWidget {
           buildListTile('Profile', Icons.person, () {}),
           buildListTile(
               'Donations', Icons.sentiment_very_satisfied_outlined, () {}),
-          buildListTile('Order Status', Icons.shopping_cart, () {}),
-          buildListTile('Payments', Icons.attach_money, () {}),
         ],
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phone_verification/config.dart/colors.dart';
-import 'package:phone_verification/course_info_screen.dart';
+import 'package:phone_verification/screens/resources_details.dart';
 
 class Item extends StatelessWidget {
   Item(
@@ -42,7 +42,8 @@ class Item extends StatelessWidget {
           //     url, contact, price, title, location, availability);
         },
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: EdgeInsets.all(0),
+          margin: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height / 4 - 20,
           decoration: BoxDecoration(
