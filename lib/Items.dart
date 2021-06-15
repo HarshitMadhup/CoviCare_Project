@@ -33,133 +33,154 @@ class Item extends StatelessWidget {
     //         builder: (BuildContext context) => ItemDetails(
     //             url, contact, price, title, location, availability)));
   }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-        onTap: () {
-          // return ItemDetails(
-          //     url, contact, price, title, location, availability);
-        },
-        child: Container(
-          padding: EdgeInsets.all(0),
-          margin: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height / 4 - 20,
-          decoration: BoxDecoration(
-            // gradient: LinearGradient(
-            //     begin: Alignment.topCenter,
-            //     end: Alignment.bottomCenter,
-            //     colors: [
-            //       AppColors.primaryWhite,
-            //       Colors.white,
-            //     ]),
-            borderRadius: BorderRadius.circular(20),
-            color: AppColors.primaryWhite,
-            boxShadow: AppColors.neumorpShadow,
-          ),
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                top: service.contains("Oxygen") ? 20 : 47,
-                right: service.contains("Oxygen") ? -60 : -40,
-                child: service.contains("Oxygen")
-                    ? Image.asset("assets/images/tank.png")
-                    : Container(
-                        width: 80,
-                        height: 130,
-                        child: Image.asset(
-                          "lib/favpng_blood-donation-vector-graphics-health-care-heart.png",
-                          fit: BoxFit.scaleDown,
-                        ),
+    String img;
+    double top;
+    double right;
+    double width;
+    {
+      if (service.toLowerCase().contains("oxygen")) {
+        img = "assets/images/tank.png";
+        top = 20;
+        right = -60;
+        width = MediaQuery.of(context).size.width * 0.6;
+      } else if (service.toLowerCase().contains("plasma") ||
+          service.contains("blood")) {
+        img = "lib/favpng_blood-donation-vector-graphics-health-care-heart.png";
+        top = 47;
+        right = 0;
+        width = MediaQuery.of(context).size.width * 0.35;
+      } else if (service.toLowerCase().contains("medicine") ||
+          service.toLowerCase().contains("remdesivir")) {
+        img = "assets/images/pngegg.png";
+        top = 61;
+        right = 0;
+        width = MediaQuery.of(context).size.width * 0.30;
+      } else {
+        img = "assets/images/medical.png";
+        top = 35;
+        right = 10;
+        width = MediaQuery.of(context).size.width * 0.25;
+      }
+      return InkWell(
+          onTap: () {
+            // return ItemDetails(
+            //     url, contact, price, title, location, availability);
+          },
+          child: Container(
+            padding: EdgeInsets.all(0),
+            margin: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 4 - 20,
+            decoration: BoxDecoration(
+              // gradient: LinearGradient(
+              //     begin: Alignment.topCenter,
+              //     end: Alignment.bottomCenter,
+              //     colors: [
+              //       AppColors.primaryWhite,
+              //       Colors.white,
+              //     ]),
+              borderRadius: BorderRadius.circular(20),
+              color: AppColors.primaryWhite,
+              boxShadow: AppColors.neumorpShadow,
+            ),
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                    top: top,
+                    right: right,
+                    child: Container(
+                        width: 120,
+                        child: Image.asset(img, fit: BoxFit.scaleDown)),
+                    width: width),
+                Padding(
+                  padding: EdgeInsets.only(top: 10, left: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        service,
+                        style: GoogleFonts.barlowCondensed(
+                            shadows: [
+                              Shadow(blurRadius: 20, color: Colors.blue[600])
+                            ],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 47,
+                            color: Colors.white),
                       ),
-                width: MediaQuery.of(context).size.width * 0.60,
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 10, left: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      service,
-                      style: GoogleFonts.barlowCondensed(
-                          shadows: [
-                            Shadow(blurRadius: 20, color: Colors.blue[600])
-                          ],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 47,
-                          color: Colors.white),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      " " + provider,
-                      style: TextStyle(),
-                    ),
-                    SizedBox(
-                      height: 7,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.location_on,
-                          size: 16,
-                          color: Color(0xff4E295B),
-                        ),
-                        SizedBox(
-                          width: 7,
-                        ),
-                        Text(
-                          location,
-                          style: TextStyle(
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        " " + provider,
+                        style: TextStyle(),
+                      ),
+                      SizedBox(
+                        height: 7,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.location_on,
+                            size: 16,
                             color: Color(0xff4E295B),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    MaterialButton(
-                      onPressed: () {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                                maintainState: false,
-                                builder: (context) => CourseInfoScreen(
-                                      title,
-                                      service,
-                                      description,
-                                      quantity,
-                                      location,
-                                      contact,
-                                      price,
-                                      provider,
-                                    )),
-                          );
-                        });
-                      },
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            location,
+                            style: TextStyle(
+                              color: Color(0xff4E295B),
+                            ),
+                          ),
+                        ],
                       ),
-                      child: Text(
-                        'View Details',
-                        style: TextStyle(
-                          color: Colors.purple,
+                      SizedBox(
+                        height: 20,
+                      ),
+                      MaterialButton(
+                        onPressed: () {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  maintainState: false,
+                                  builder: (context) => CourseInfoScreen(
+                                        title,
+                                        service,
+                                        description,
+                                        quantity,
+                                        location,
+                                        contact,
+                                        price,
+                                        provider,
+                                      )),
+                            );
+                          });
+                        },
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          'View Details',
+                          style: TextStyle(
+                            color: Colors.purple,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ));
+              ],
+            ),
+          ));
+    }
   }
 }
-
 // @override
 // Widget build(BuildContext context) {
 //   // TODO: implement build

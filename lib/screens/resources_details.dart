@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../design_course_app_theme.dart';
+import '../design.dart';
 
 class CourseInfoScreen extends StatefulWidget {
   CourseInfoScreen(this.title, this.service, this.description, this.quantity,
@@ -20,6 +20,7 @@ class CourseInfoScreen extends StatefulWidget {
 
 class _CourseInfoScreenState extends State<CourseInfoScreen>
     with TickerProviderStateMixin {
+  String img;
   final double infoHeight = 364.0;
   AnimationController animationController;
   Animation<double> animation;
@@ -28,6 +29,17 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
   double opacity3 = 1.0;
   @override
   void initState() {
+    if (widget.service.toLowerCase().contains("oxygen")) {
+      img = "assets/images/oxygen.png";
+    } else if (widget.service.toLowerCase().contains("plasma") ||
+        widget.service.contains("blood")) {
+      img = "lib/favpng_blood-donation-vector-graphics-health-care-heart.png";
+    } else if (widget.service.toLowerCase().contains("medicine") ||
+        widget.service.toLowerCase().contains("remdesivir")) {
+      img = "assets/images/pngegg.png";
+    } else {
+      img = "assets/images/medical.png";
+    }
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -59,7 +71,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
         (MediaQuery.of(context).size.width / 1.2) +
         24.0;
     return Container(
-      color: DesignCourseAppTheme.nearlyWhite,
+      color: Design.nearlyWhite,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
@@ -67,19 +79,16 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
             Column(
               children: <Widget>[
                 AspectRatio(
-                  aspectRatio: 1.2,
-                  child: widget.service.contains("Oxygen")
-                      ? Image.asset("assets/images/oxygen.png",
-                          fit: BoxFit.cover)
-                      : Container(
-                          width: 50,
-                          height: 50,
-                          child: Image.asset(
-                            "lib/favpng_blood-donation-vector-graphics-health-care-heart.png",
-                            fit: BoxFit.scaleDown,
-                          ),
-                        ),
-                ),
+                    aspectRatio: 1.2, child: Image.asset(img, fit: BoxFit.cover)
+                    // : Container(
+                    //     width: 50,
+                    //     height: 50,
+                    //     child: Image.asset(
+                    //       "lib/favpng_blood-donation-vector-graphics-health-care-heart.png",
+                    //       fit: BoxFit.scaleDown,
+                    //     ),
+                    //   ),
+                    ),
               ],
             ),
             Positioned(
@@ -95,7 +104,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                       topRight: Radius.circular(32.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: DesignCourseAppTheme.grey.withOpacity(0.2),
+                        color: Design.grey.withOpacity(0.2),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -123,7 +132,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 fontWeight: FontWeight.w600,
                                 fontSize: 22,
                                 letterSpacing: 0.27,
-                                color: DesignCourseAppTheme.darkerText,
+                                color: Design.darkerText,
                               ),
                             ),
                           ),
@@ -141,7 +150,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     fontWeight: FontWeight.w200,
                                     fontSize: 22,
                                     letterSpacing: 0.27,
-                                    color: DesignCourseAppTheme.nearlyBlue,
+                                    color: Design.nearlyBlue,
                                   ),
                                 ),
                                 // Container(
@@ -233,17 +242,17 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     height: 48,
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: DesignCourseAppTheme.nearlyWhite,
+                                        color: Design.nearlyWhite,
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(16.0),
                                         ),
                                         border: Border.all(
-                                            color: DesignCourseAppTheme.grey
-                                                .withOpacity(0.2)),
+                                            color:
+                                                Design.grey.withOpacity(0.2)),
                                       ),
                                       child: Icon(
                                         Icons.add,
-                                        color: DesignCourseAppTheme.nearlyBlue,
+                                        color: Design.nearlyBlue,
                                         size: 28,
                                       ),
                                     ),
@@ -255,14 +264,13 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     child: Container(
                                       height: 48,
                                       decoration: BoxDecoration(
-                                        color: DesignCourseAppTheme.nearlyBlue,
+                                        color: Design.nearlyBlue,
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(16.0),
                                         ),
                                         boxShadow: <BoxShadow>[
                                           BoxShadow(
-                                              color: DesignCourseAppTheme
-                                                  .nearlyBlue
+                                              color: Design.nearlyBlue
                                                   .withOpacity(0.5),
                                               offset: const Offset(1.1, 1.1),
                                               blurRadius: 10.0),
@@ -276,8 +284,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                             fontWeight: FontWeight.w600,
                                             fontSize: 18,
                                             letterSpacing: 0.0,
-                                            color: DesignCourseAppTheme
-                                                .nearlyWhite,
+                                            color: Design.nearlyWhite,
                                           ),
                                         ),
                                       ),
@@ -305,7 +312,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                 scale: CurvedAnimation(
                     parent: animationController, curve: Curves.fastOutSlowIn),
                 child: Card(
-                  color: DesignCourseAppTheme.nearlyBlue,
+                  color: Design.nearlyBlue,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50.0)),
                   elevation: 10.0,
@@ -315,7 +322,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                     child: Center(
                       child: Icon(
                         Icons.add,
-                        color: DesignCourseAppTheme.nearlyWhite,
+                        color: Design.nearlyWhite,
                         size: 50,
                       ),
                     ),
@@ -335,7 +342,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                         BorderRadius.circular(AppBar().preferredSize.height),
                     child: Icon(
                       Icons.arrow_back_ios,
-                      color: DesignCourseAppTheme.nearlyBlack,
+                      color: Design.nearlyBlack,
                     ),
                     onTap: () {
                       Navigator.pop(context);
@@ -356,11 +363,11 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
       child: Container(
         width: 116,
         decoration: BoxDecoration(
-          color: DesignCourseAppTheme.nearlyWhite,
+          color: Design.nearlyWhite,
           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
           boxShadow: <BoxShadow>[
             BoxShadow(
-                color: DesignCourseAppTheme.grey,
+                color: Design.grey,
                 offset: const Offset(1.1, 1.1),
                 blurRadius: 8.0),
           ],
@@ -378,7 +385,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                 style: TextStyle(
                   fontSize: 14,
                   letterSpacing: 0.27,
-                  color: DesignCourseAppTheme.nearlyBlue,
+                  color: Design.nearlyBlue,
                 ),
               ),
               Text(
@@ -387,7 +394,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                 style: TextStyle(
                   fontSize: 14,
                   letterSpacing: 0.27,
-                  color: DesignCourseAppTheme.grey,
+                  color: Design.grey,
                 ),
               ),
             ],
