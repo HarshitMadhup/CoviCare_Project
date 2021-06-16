@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phone_verification/config.dart/colors.dart';
 import 'package:phone_verification/screens/resources_details.dart';
@@ -56,7 +57,7 @@ class Item extends StatelessWidget {
       } else if (service.toLowerCase().contains("medicine") ||
           service.toLowerCase().contains("remdesivir")) {
         img = "assets/images/pngegg.png";
-        top = 61;
+        top = 55;
         right = 0;
         width = MediaQuery.of(context).size.width * 0.30;
       } else {
@@ -142,7 +143,13 @@ class Item extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      MaterialButton(
+                      NeumorphicButton(
+                        style: NeumorphicStyle(
+                          boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(30)),
+                          shape: NeumorphicShape.convex,
+                          color: Colors.white,
+                        ),
                         onPressed: () {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             Navigator.of(context).push(
@@ -161,10 +168,10 @@ class Item extends StatelessWidget {
                             );
                           });
                         },
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                        // color: Colors.white,
+                        // shape: RoundedRectangleBorder(
+                        //   borderRadius: BorderRadius.circular(20),
+                        // ),
                         child: Text(
                           'View Details',
                           style: TextStyle(

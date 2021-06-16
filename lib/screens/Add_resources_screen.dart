@@ -246,7 +246,11 @@ class Add_Resources_ScreenState extends State<Add_Resources_Screen> {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.blue[300], Colors.white]),
+                      colors: [
+                        Colors.blue[900],
+                        Colors.blue[200],
+                        Colors.white
+                      ]),
                   boxShadow: [
                     BoxShadow(color: Colors.blue[900], blurRadius: 30)
                   ],
@@ -272,13 +276,9 @@ class Add_Resources_ScreenState extends State<Add_Resources_Screen> {
                             color: Colors.white,
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.filter_list,
-                            color: Colors.white,
-                          ),
-                        ),
+                        Text("Help",
+                            style: GoogleFonts.barlow(
+                                color: Colors.white, fontSize: 17))
                       ],
                     ),
                     Text(

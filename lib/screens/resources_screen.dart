@@ -31,11 +31,8 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
         backgroundColor: Colors.transparent,
         actions: [
           TextButton(
-            child: Text("Logout",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                )),
+            child: Text("Location",
+                style: GoogleFonts.barlow(color: Colors.white, fontSize: 17)),
             onPressed: () {
               //redirect
               // _auth.signOut().then((value) => Navigator.pushAndRemoveUntil(
@@ -151,7 +148,7 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.blue[300], Colors.white]),
+                    colors: [Colors.blue[900], Colors.blue[200], Colors.white]),
                 // boxShadow: [BoxShadow(color: Colors.blue[900], blurRadius: 30)],
                 color: Colors.blue[300],
                 borderRadius: BorderRadius.only(
@@ -175,13 +172,13 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      // IconButton(
-                      //   onPressed: () {},
-                      //   icon: Icon(
-                      //     Icons.filter_list,
-                      //     color: Colors.white,
-                      //   ),
-                      // ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.menu,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                   Text(
@@ -206,11 +203,19 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
     return showDialog(
-        barrierColor: Colors.black,
+        barrierColor: Colors.blue[50],
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Enter Date'),
+            titleTextStyle: GoogleFonts.lato(color: Colors.black),
+            elevation: 20,
+            backgroundColor: Colors.blue[50],
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            title: Text(
+              'Enter Location',
+              style: GoogleFonts.lato(color: Colors.black, fontSize: 20),
+            ),
             content: TextField(
               onChanged: (value) {
                 setState(() {
@@ -222,8 +227,8 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
             ),
             actions: <Widget>[
               FlatButton(
-                color: Colors.black,
-                textColor: Colors.green,
+                color: Colors.blue[50],
+                textColor: Colors.black,
                 child: Text('OK'),
                 onPressed: () {
                   setState(() {

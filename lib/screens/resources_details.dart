@@ -184,11 +184,8 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                               padding: const EdgeInsets.all(8),
                               child: Column(children: [
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    getTimeBoxUI(
-                                      'Quantity',
-                                      widget.quantity,
-                                    ),
                                     getTimeBoxUI(
                                       'Provider',
                                       widget.provider,
@@ -199,10 +196,16 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     ),
                                   ],
                                 ),
-                                getTimeBoxUI(
-                                  'Contact',
-                                  widget.contact,
-                                ),
+                                Row(children: [
+                                  getTimeBoxUI(
+                                    'Quantity',
+                                    widget.quantity,
+                                  ),
+                                  getTimeBoxUI(
+                                    'Contact',
+                                    widget.contact,
+                                  ),
+                                ])
                               ]),
                             ),
                           ),
@@ -361,7 +364,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
     return Padding(
       padding: const EdgeInsets.all(3.7),
       child: Container(
-        width: 116,
+        width: MediaQuery.of(context).size.width / 2.3,
         decoration: BoxDecoration(
           color: Design.nearlyWhite,
           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
