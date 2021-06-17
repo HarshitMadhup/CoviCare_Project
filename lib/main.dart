@@ -56,7 +56,7 @@ class App extends StatelessWidget {
     //         children: <Widget>[
     //           Row(
     //             mainAxisAlignment: MainAxisAlignment.center,
-    //             crossAxisAlignment: CrossAxisAlignment.center,
+    //             crossAxisAlignment: CrossAxisAlignmen                                                            t.center,
     //             children: <Widget>[
     //               CircularProgressIndicator(
     //                 backgroundColor: Theme.of(context).primaryColor,

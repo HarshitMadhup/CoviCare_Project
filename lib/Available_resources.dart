@@ -45,7 +45,7 @@ class Available extends StatelessWidget {
                       Docs[index].data()['contact'].toString(),
                       Docs[index].data()['price'].toString(),
                       Docs[index].data()['provider'].toString(),
-                    )
+                      Docs[index].data()['id'].toString())
                   : Text("");
               return widget;
             });

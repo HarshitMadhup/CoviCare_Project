@@ -41,7 +41,7 @@ class Add_Resources_ScreenState extends State<Add_Resources_Screen> {
   }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  void _sendMessage(
+  void _addResource(
       String title,
       String service,
       String description,
@@ -210,7 +210,7 @@ class Add_Resources_ScreenState extends State<Add_Resources_Screen> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   onPressed: () {
-                                    _sendMessage(
+                                    _addResource(
                                         nameController.text.trim(),
                                         serviceController.text.trim(),
                                         descriptionController.text.trim(),

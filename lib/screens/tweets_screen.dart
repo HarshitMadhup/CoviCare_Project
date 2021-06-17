@@ -38,7 +38,7 @@ class Tweet_Screen_State extends State<TweetsScreen> {
         Column(children: [
           SizedBox(height: 77),
           SizedBox(
-            height: MediaQuery.of(context).size.height - 150 + 5,
+            height: MediaQuery.of(context).size.height - 150 + 7,
             // top: 30,
             child: WebView(
               javascriptMode: JavascriptMode.unrestricted,
@@ -59,7 +59,7 @@ class Tweet_Screen_State extends State<TweetsScreen> {
           right: 0,
           child: Container(
             alignment: Alignment.topCenter,
-            height: MediaQuery.of(context).size.height / 4.77,
+            height: MediaQuery.of(context).size.height / 4.7,
             width: double.infinity,
             decoration: BoxDecoration(
                 // border: Border.all(color: Colors.purple),
@@ -78,7 +78,7 @@ class Tweet_Screen_State extends State<TweetsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 50,
+                    height: MediaQuery.of(context).size.height / 20,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,9 +109,9 @@ class Tweet_Screen_State extends State<TweetsScreen> {
                       ),
                     ],
                   ),
-                  // SizedBox(
-                  //   height: 25,
-                  // ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 53,
+                  ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

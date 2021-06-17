@@ -15,7 +15,8 @@ class Item extends StatelessWidget {
       this.location,
       this.contact,
       this.price,
-      this.provider);
+      this.provider,
+      this.id);
   // final String user;
   final String title;
   final String service;
@@ -26,6 +27,7 @@ class Item extends StatelessWidget {
   final String quantity;
   final String contact;
   final String provider;
+  final String id;
 
   void select(BuildContext context) {
     // Navigator.push(
@@ -56,8 +58,8 @@ class Item extends StatelessWidget {
         width = MediaQuery.of(context).size.width * 0.35;
       } else if (service.toLowerCase().contains("medicine") ||
           service.toLowerCase().contains("remdesivir")) {
-        img = "assets/images/pngegg.png";
-        top = 55;
+        img = "assets/images/medical.png";
+        top = MediaQuery.of(context).size.height / 20;
         right = 0;
         width = MediaQuery.of(context).size.width * 0.30;
       } else {
@@ -141,7 +143,7 @@ class Item extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        height: 20,
+                        height: MediaQuery.of(context).size.height / 53,
                       ),
                       NeumorphicButton(
                         style: NeumorphicStyle(
@@ -156,15 +158,15 @@ class Item extends StatelessWidget {
                               MaterialPageRoute(
                                   maintainState: false,
                                   builder: (context) => CourseInfoScreen(
-                                        title,
-                                        service,
-                                        description,
-                                        quantity,
-                                        location,
-                                        contact,
-                                        price,
-                                        provider,
-                                      )),
+                                      title,
+                                      service,
+                                      description,
+                                      quantity,
+                                      location,
+                                      contact,
+                                      price,
+                                      provider,
+                                      id)),
                             );
                           });
                         },

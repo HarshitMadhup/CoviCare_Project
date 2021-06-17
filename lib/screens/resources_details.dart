@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../design.dart';
 
 class CourseInfoScreen extends StatefulWidget {
   CourseInfoScreen(this.title, this.service, this.description, this.quantity,
-      this.location, this.contact, this.price, this.provider);
+      this.location, this.contact, this.price, this.provider, this.id);
   final String title;
   final String service;
 
@@ -13,6 +14,7 @@ class CourseInfoScreen extends StatefulWidget {
   final String quantity;
   final String contact;
   final String provider;
+  final String id;
 
   @override
   _CourseInfoScreenState createState() => _CourseInfoScreenState();
@@ -27,6 +29,8 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
   double opacity1 = 1.0;
   double opacity2 = 1.0;
   double opacity3 = 1.0;
+
+  static String get id => id;
   @override
   void initState() {
     if (widget.service.toLowerCase().contains("oxygen")) {
@@ -36,7 +40,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
       img = "lib/favpng_blood-donation-vector-graphics-health-care-heart.png";
     } else if (widget.service.toLowerCase().contains("medicine") ||
         widget.service.toLowerCase().contains("remdesivir")) {
-      img = "assets/images/pngegg.png";
+      img = "assets/images/n.jpg";
     } else {
       img = "assets/images/medical.png";
     }
@@ -50,6 +54,9 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
   }
 
   Future<void> setData() async {
+    //      String upvote=FirebaseFirestore.instance.collection('rent').doc(id).get(0)
+
+    // FirebaseFirestore.instance.collection('rent').doc(widget.id).update({'votes' :upvote.toString()});
     animationController.forward();
     await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     setState(() {

@@ -29,23 +29,6 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
         bottomOpacity: 0.0,
         foregroundColor: Colors.transparent,
         backgroundColor: Colors.transparent,
-        actions: [
-          TextButton(
-            child: Text("Location",
-                style: GoogleFonts.barlow(color: Colors.white, fontSize: 17)),
-            onPressed: () {
-              //redirect
-              // _auth.signOut().then((value) => Navigator.pushAndRemoveUntil(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (BuildContext context) => LoginScreen(),
-              //       ),
-              //       (route) => false,
-              //     ));
-              return _displayTextInputDialog(context);
-            },
-          ),
-        ],
       ),
       body: Stack(children: [
         Column(
@@ -74,13 +57,74 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
             ),
           ],
         ),
+        // Positioned(
+        //   top: 0,
+        //   left: 0,
+        //   right: 0,
+        //   child: Container(
+        //     alignment: Alignment.topCenter,
+        //     height: 170,
+        //     width: double.infinity,
+        //     decoration: BoxDecoration(
+        //         // border: Border.all(color: Colors.purple),
+        //         gradient: LinearGradient(
+        //             begin: Alignment.topCenter,
+        //             end: Alignment.bottomCenter,
+        //             colors: [Colors.blue[900], Colors.blue[200], Colors.white]),
+        //         boxShadow: [BoxShadow(color: Colors.blue[900], blurRadius: 30)],
+        //         color: Colors.blue[300],
+        //         borderRadius: BorderRadius.only(
+        //             bottomLeft: Radius.circular(50),
+        //             bottomRight: Radius.circular(50))),
+        //     child: Padding(
+        //       padding: const EdgeInsets.symmetric(horizontal: 30),
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.center,
+        //         children: [
+        //           SizedBox(
+        //             height: 50,
+        //           ),
+        //           Row(
+        //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //             children: <Widget>[
+        //               IconButton(
+        //                 onPressed: () {},
+        //                 icon: Icon(
+        //                   Icons.menu,
+        //                   color: Colors.white,
+        //                 ),
+        //               ),
+        //               IconButton(
+        //                 onPressed: () {},
+        //                 icon: Icon(
+        //                   Icons.filter_list,
+        //                   color: Colors.white,
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //           Text(
+        //             "Resources",
+        //             style: GoogleFonts.adventPro(
+        //                 shadows: [
+        //                   BoxShadow(color: Colors.blue[900], blurRadius: 20)
+        //                 ],
+        //                 color: Colors.white,
+        //                 fontSize: 30,
+        //                 fontWeight: FontWeight.bold),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
         Positioned(
           top: 0,
           left: 0,
           right: 0,
           child: Container(
             alignment: Alignment.topCenter,
-            height: 170,
+            height: MediaQuery.of(context).size.height / 4.7,
             width: double.infinity,
             decoration: BoxDecoration(
                 // border: Border.all(color: Colors.purple),
@@ -94,7 +138,7 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                     bottomLeft: Radius.circular(50),
                     bottomRight: Radius.circular(50))),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -105,80 +149,37 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       IconButton(
-                        onPressed: () {},
+                        padding: EdgeInsets.only(left: 20),
+                        onPressed: () {
+                          return _displayTextInputDialog(context);
+                        },
                         icon: Icon(
                           Icons.menu,
                           color: Colors.white,
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.filter_list,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    "Resources",
-                    style: GoogleFonts.adventPro(
-                        shadows: [
-                          BoxShadow(color: Colors.blue[900], blurRadius: 20)
-                        ],
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            alignment: Alignment.topCenter,
-            height: 170,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                // border: Border.all(color: Colors.purple),
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.blue[900], Colors.blue[200], Colors.white]),
-                // boxShadow: [BoxShadow(color: Colors.blue[900], blurRadius: 30)],
-                color: Colors.blue[300],
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(50),
-                    bottomRight: Radius.circular(50))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.menu,
-                          color: Colors.white,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.menu,
-                          color: Colors.white,
-                        ),
-                      ),
+                      // SizedBox(width: 220),
+                      GestureDetector(
+                          onDoubleTap: () {
+                            print("nsfkjanvdzn");
+                          },
+                          // padding: EdgeInsets.only(right: 20),
+                          child: Container(
+                              child: Text("Location",
+                                  textAlign: TextAlign.right,
+                                  style: GoogleFonts.barlow(
+                                      color: Colors.white, fontSize: 17))),
+                          onTap: () {
+                            print("nsfkjanvdzn");
+                            return _displayTextInputDialog(context);
+                          })
+                      // IconButton(
+                      //   onPressed: () {},
+                      //   icon: Icon(
+                      //     Icons.menu,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
                     ],
                   ),
                   Text(
