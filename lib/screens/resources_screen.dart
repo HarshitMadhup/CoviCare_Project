@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:phone_verification/helper/widgets/Available_resources.dart';
+import '../widgets/Available_resources.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:phone_verification/helper/widgets/MainDrawer.dart';
-import 'package:phone_verification/tabView.dart';
 
 class ResourcesScreen extends StatefulWidget {
   @override
