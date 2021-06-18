@@ -4,10 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phone_verification/palatte.dart';
-import 'package:phone_verification/widgets/text-input.dart';
+import 'package:phone_verification/helper/text-input.dart';
 
-import '../config.dart/colors.dart';
-import './loginScreen.dart';
+import '../config/colors.dart';
 
 class Add_Resources_Screen extends StatefulWidget {
   @override
@@ -94,19 +93,6 @@ class Add_Resources_ScreenState extends State<Add_Resources_Screen> {
         shadowColor: Colors.white,
         bottomOpacity: 0.0,
         foregroundColor: Colors.transparent,
-        title: Text(""),
-        actions: [
-          TextButton(
-            child: Text(""),
-            onPressed: () {
-              //redirect
-              _auth.signOut().then((value) =>
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return LoginPage();
-                  })));
-            },
-          ),
-        ],
       ),
       body: Stack(
         children: [
@@ -270,7 +256,9 @@ class Add_Resources_ScreenState extends State<Add_Resources_Screen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            print("bdvhbskv");
+                          },
                           icon: Icon(
                             Icons.menu,
                             color: Colors.white,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:phone_verification/config.dart/colors.dart';
+import 'package:phone_verification/config/colors.dart';
 import 'package:phone_verification/screens/resources_details.dart';
 
 class Item extends StatelessWidget {
@@ -52,7 +52,8 @@ class Item extends StatelessWidget {
         width = MediaQuery.of(context).size.width * 0.6;
       } else if (service.toLowerCase().contains("plasma") ||
           service.contains("blood")) {
-        img = "lib/favpng_blood-donation-vector-graphics-health-care-heart.png";
+        img =
+            "assets/images/favpng_blood-donation-vector-graphics-health-care-heart.png";
         top = 47;
         right = 0;
         width = MediaQuery.of(context).size.width * 0.35;

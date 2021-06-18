@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:phone_verification/screens/tweets_screen.dart';
 import 'package:phone_verification/screens/resources_screen.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
-import 'MainDrawer.dart';
+import 'helper/widgets/MainDrawer.dart';
 import 'screens/Add_resources_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 // import 'package:line_icons/line_icons.dart';
@@ -111,8 +112,8 @@ class _TabsScreenState extends State<TabsScreen> {
                     text: 'Add Resources',
                   ),
                   GButton(
-                    icon: Icons.search,
-                    text: 'Search',
+                    icon: FontAwesomeIcons.twitter,
+                    text: 'Tweets',
                   ),
                 ],
                 selectedIndex: _selectedPageIndex,

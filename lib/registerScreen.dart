@@ -1,67 +1,69 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:mynotes/pages/homepage.dart';
-import 'package:phone_verification/tabView.dart';
+// TEMPORARY CODE
 
-GoogleSignIn googleSignIn = GoogleSignIn();
-final FirebaseAuth auth = FirebaseAuth.instance;
-CollectionReference users = FirebaseFirestore.instance.collection('users');
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
+// // import 'package:mynotes/pages/homepage.dart';
+// import 'package:phone_verification/tabView.dart';
 
-// changing return type to void
-// as bool was not needed here
-void signInWithGoogle(BuildContext context) async {
-  try {
-    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+// GoogleSignIn googleSignIn = GoogleSignIn();
+// final FirebaseAuth auth = FirebaseAuth.instance;
+// CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-    if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
+// // changing return type to void
+// // as bool was not needed here
+// void signInWithGoogle(BuildContext context) async {
+//   try {
+//     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
 
-      final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken);
+//     if (googleSignInAccount != null) {
+//       final GoogleSignInAuthentication googleSignInAuthentication =
+//           await googleSignInAccount.authentication;
 
-      final UserCredential authResult =
-          await auth.signInWithCredential(credential);
+//       final AuthCredential credential = GoogleAuthProvider.credential(
+//           accessToken: googleSignInAuthentication.accessToken,
+//           idToken: googleSignInAuthentication.idToken);
 
-      final User user = authResult.user;
+//       final UserCredential authResult =
+//           await auth.signInWithCredential(credential);
 
-      var userData = {
-        'name': googleSignInAccount.displayName,
-        'provider': 'google',
-        'photoUrl': googleSignInAccount.photoUrl,
-        'email': googleSignInAccount.email,
-      };
+//       final User user = authResult.user;
 
-      users.doc(user.uid).get().then((doc) {
-        if (doc.exists) {
-          // old user
-          doc.reference.update(userData);
+//       var userData = {
+//         'name': googleSignInAccount.displayName,
+//         'provider': 'google',
+//         'photoUrl': googleSignInAccount.photoUrl,
+//         'email': googleSignInAccount.email,
+//       };
 
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => TabsScreen(),
-            ),
-          );
-        } else {
-          // new user
+//       users.doc(user.uid).get().then((doc) {
+//         if (doc.exists) {
+//           // old user
+//           doc.reference.update(userData);
 
-          users.doc(user.uid).set(userData);
+//           Navigator.of(context).pushReplacement(
+//             MaterialPageRoute(
+//               builder: (context) => TabsScreen(),
+//             ),
+//           );
+//         } else {
+//           // new user
 
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => TabsScreen(),
-            ),
-          );
-        }
-      });
-    }
-  } catch (PlatformException) {
-    print(PlatformException);
-    print("Sign in not successful !");
-    // better show an alert here
-  }
-}
+//           users.doc(user.uid).set(userData);
+
+//           Navigator.of(context).pushReplacement(
+//             MaterialPageRoute(
+//               builder: (context) => TabsScreen(),
+//             ),
+//           );
+//         }
+//       });
+//     }
+//   } catch (PlatformException) {
+//     print(PlatformException);
+//     print("Sign in not successful !");
+//     // better show an alert here
+//   }
+// }

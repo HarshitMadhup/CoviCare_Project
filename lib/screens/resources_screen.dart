@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:phone_verification/Available_resources.dart';
+import 'package:phone_verification/helper/widgets/Available_resources.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:phone_verification/helper/widgets/MainDrawer.dart';
 import 'package:phone_verification/tabView.dart';
 
 class ResourcesScreen extends StatefulWidget {
@@ -23,19 +24,19 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        shadowColor: Colors.white,
-        bottomOpacity: 0.0,
-        foregroundColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-      ),
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   shadowColor: Colors.white,
+      //   bottomOpacity: 0.0,
+      //   foregroundColor: Colors.transparent,
+      //   backgroundColor: Colors.transparent,
+      // ),
       body: Stack(children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: 60,
+              height: MediaQuery.of(context).size.height / 6,
             ),
             Expanded(
               child: Container(
@@ -124,7 +125,7 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
           right: 0,
           child: Container(
             alignment: Alignment.topCenter,
-            height: MediaQuery.of(context).size.height / 4.7,
+            height: MediaQuery.of(context).size.height / 5,
             width: double.infinity,
             decoration: BoxDecoration(
                 // border: Border.all(color: Colors.purple),
@@ -150,36 +151,23 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                     children: <Widget>[
                       IconButton(
                         padding: EdgeInsets.only(left: 20),
-                        onPressed: () {
-                          return _displayTextInputDialog(context);
-                        },
+                        // onPressed: () {
+                        //   return Drawer(child: MainDrawer());
+                        // },
                         icon: Icon(
                           Icons.menu,
                           color: Colors.white,
                         ),
                       ),
-                      // SizedBox(width: 220),
                       GestureDetector(
-                          onDoubleTap: () {
-                            print("nsfkjanvdzn");
-                          },
-                          // padding: EdgeInsets.only(right: 20),
                           child: Container(
                               child: Text("Location",
                                   textAlign: TextAlign.right,
                                   style: GoogleFonts.barlow(
                                       color: Colors.white, fontSize: 17))),
                           onTap: () {
-                            print("nsfkjanvdzn");
                             return _displayTextInputDialog(context);
                           })
-                      // IconButton(
-                      //   onPressed: () {},
-                      //   icon: Icon(
-                      //     Icons.menu,
-                      //     color: Colors.white,
-                      //   ),
-                      // ),
                     ],
                   ),
                   Text(

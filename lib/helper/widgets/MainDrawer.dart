@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, Function tapHandler) {
@@ -24,18 +25,17 @@ class MainDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: <Widget>[
+          // CircleAvatar(foregroundImage: FontAwesomeIcons.smile,)
           Container(
             height: 120,
             width: double.infinity,
             padding: EdgeInsets.all(20),
             alignment: Alignment.centerLeft,
             color: Theme.of(context).accentColor,
-            child: Text(
-              'Profile',
-              style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 30,
-                  color: Theme.of(context).primaryColor),
+            child: IconButton(
+              iconSize: 25,
+              icon: Icon(FontAwesomeIcons.smile),
+              onPressed: () {},
             ),
           ),
           SizedBox(
