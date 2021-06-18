@@ -62,7 +62,7 @@ flutter:
 
   assets:
     - assets/images/
-    - lib/favpng_blood-donation-vector-graphics-health-care-heart.png
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
