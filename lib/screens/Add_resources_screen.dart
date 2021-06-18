@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:phone_verification/palatte.dart';
+import 'package:phone_verification/helper/palatte.dart';
 import 'package:phone_verification/helper/text-input.dart';
 
 import '../config/colors.dart';

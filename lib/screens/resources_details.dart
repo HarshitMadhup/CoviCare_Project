@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../design.dart';
+import '../helper/design.dart';
 
 class CourseInfoScreen extends StatefulWidget {
   CourseInfoScreen(this.title, this.service, this.description, this.quantity,

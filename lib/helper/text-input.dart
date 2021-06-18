@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../palatte.dart';
+import 'palatte.dart';
 
 class TextInput extends StatelessWidget {
   const TextInput(
