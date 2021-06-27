@@ -9,8 +9,9 @@
 => People have been trying to help others through twitter. This app fetches those tweets (based on selected location and resource type) and displays to the user.
 
 ## Screenshots
+<!-- 
+![Apple iPhone Xs Max Presentation (1)](https://user-images.githubusercontent.com/72512986/123545980-7726a200-d778-11eb-828d-9fa3d16ec5d3.png) -->
 
-![Uploading Apple iPhone Xs Max Presentation (1).png…]()
 ![home](https://user-images.githubusercontent.com/72512986/122620809-87bc8580-d0b1-11eb-8a30-daa453f378ec.png)
 
 ![add](https://user-images.githubusercontent.com/72512986/122621057-16310700-d0b2-11eb-8941-d31c73820576.png)
