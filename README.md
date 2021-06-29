@@ -12,11 +12,11 @@
 <!-- 
 ![Apple iPhone Xs Max Presentation (1)](https://user-images.githubusercontent.com/72512986/123545980-7726a200-d778-11eb-828d-9fa3d16ec5d3.png) -->
 
-![home](https://user-images.githubusercontent.com/72512986/122620809-87bc8580-d0b1-11eb-8a30-daa453f378ec.png)
 
-![add](https://user-images.githubusercontent.com/72512986/122621057-16310700-d0b2-11eb-8941-d31c73820576.png)
-![TWEETS](https://user-images.githubusercontent.com/72512986/122621076-1cbf7e80-d0b2-11eb-8ac4-0e4c150c62e3.png)
-![RESOURCES](https://user-images.githubusercontent.com/72512986/122621082-221cc900-d0b2-11eb-90f0-7933ff165509.png)
+![Apple iPhone Xs Max Presentation (17)](https://user-images.githubusercontent.com/72512986/123863618-6ed09180-d947-11eb-941d-b757805ba8cd.png)
+![Apple iPhone Xs Max Presentation (19)](https://user-images.githubusercontent.com/72512986/123865109-25814180-d949-11eb-92f2-1c273168544c.png)
+
+
 
 
 
