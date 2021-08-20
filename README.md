@@ -8,6 +8,8 @@
 
 => People have been trying to help others through twitter. This app fetches those tweets (based on selected location and resource type) and displays to the user.
 
+Built with Flutter
+
 ## Screenshots
 <!-- 
 ![Apple iPhone Xs Max Presentation (1)](https://user-images.githubusercontent.com/72512986/123545980-7726a200-d778-11eb-828d-9fa3d16ec5d3.png) -->
